@@ -1,0 +1,15 @@
+[package]
+name = "microblog"
+version = "0.0.0"
+authors = ["Yusuke Sasaki <yusuke.sasaki.nuem@gmail.com>"]
+
+[dependencies]
+dotenv = "0.10.0"
+tera = "0.10.4"
+
+# Iron and middlewares
+iron = "0.5.1"
+router = "0.5.1"
+mount = "0.3.0"
+staticfile = "0.4.0"
+iron-tera = "0.3.0"
