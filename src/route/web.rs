@@ -1,25 +1,25 @@
 use iron::{Chain, Request, Response, IronResult};
 use iron::Handler;
 use iron::status;
-use iron_router::Router;
+use iron_router::Router as IronRouter;
 use iron_tera::{Template, TeraEngine};
 use tera::Context;
 
-pub struct Middleware(Chain);
+pub struct Router(Chain);
 
-impl Middleware {
+impl Router {
     pub fn new() -> Self {
-        let mut router = Router::new();
+        let mut router = IronRouter::new();
         router.get("/", index, "index");
 
         let mut chain = Chain::new(router);
         chain.link_after(TeraEngine::new("templates/**/*"));
 
-        Middleware(chain)
+        Router(chain)
     }
 }
 
-impl Handler for Middleware {
+impl Handler for Router {
     fn handle(&self, req: &mut Request) -> IronResult<Response> {
         self.0.handle(req)
     }

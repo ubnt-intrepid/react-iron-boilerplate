@@ -15,15 +15,15 @@ use iron_mount::Mount;
 use iron_staticfile::Static;
 
 use config::AppConfig;
-
+use route::{WebRouter, ApiRouter};
 
 fn main() {
     dotenv().ok();
     let config = AppConfig::from_env_vars();
 
     let mut mount = Mount::new();
-    mount.mount("/", route::web::Middleware::new());
-    mount.mount("/api/v1/", route::api::Middleware::new());
+    mount.mount("/", WebRouter::new());
+    mount.mount("/api/v1/", ApiRouter::new());
     mount.mount("/assets/", Static::new("assets"));
 
     println!("Serving on {}", config.bind_address);

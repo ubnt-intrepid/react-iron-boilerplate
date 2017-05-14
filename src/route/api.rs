@@ -1,9 +1,16 @@
-use iron_router::Router;
+use iron::{Request, Response, IronResult, Handler};
+use iron_router::Router as IronRouter;
 
-pub struct Middleware;
+pub struct Router(IronRouter);
 
-impl Middleware {
+impl Router {
     pub fn new() -> Router {
-        Router::new()
+        Router(IronRouter::new())
+    }
+}
+
+impl Handler for Router {
+    fn handle(&self, req: &mut Request) -> IronResult<Response> {
+        self.0.handle(req)
     }
 }
