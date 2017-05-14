@@ -10,8 +10,7 @@ pub struct Middleware(Chain);
 impl Middleware {
     pub fn new() -> Self {
         let mut router = Router::new();
-        router.get("/", index, stringify!(index));
-        router.get("/login", login, stringify!(login));
+        router.get("/", index, "index");
 
         let mut chain = Chain::new(router);
         chain.link_after(TeraEngine::new("templates/**/*"));
@@ -29,17 +28,5 @@ impl Handler for Middleware {
 
 // GET '/'
 fn index(_req: &mut Request) -> IronResult<Response> {
-    Ok(render(Context::new(), "index", "Index page"))
-}
-
-// GET '/login'
-fn login(_req: &mut Request) -> IronResult<Response> {
-    Ok(render(Context::new(), "login", "Log In"))
-}
-
-
-fn render(mut context: Context, name: &str, title: &str) -> Response {
-    context.add("_title", &title);
-    context.add("_name", &name);
-    Response::with((status::Ok, Template::new("index.html", context)))
+    Ok(Response::with((status::Ok, Template::new("index.html", Context::default()))))
 }
