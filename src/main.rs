@@ -7,7 +7,7 @@ extern crate staticfile as iron_staticfile;
 extern crate iron_tera;
 
 mod config;
-mod routes;
+mod route;
 
 use dotenv::dotenv;
 use iron::prelude::*;
@@ -22,8 +22,8 @@ fn main() {
     let config = AppConfig::from_env_vars();
 
     let mut mount = Mount::new();
-    mount.mount("/", routes::web::Middleware::new());
-    mount.mount("/api/v1/", routes::api::Middleware::new());
+    mount.mount("/", route::web::Middleware::new());
+    mount.mount("/api/v1/", route::api::Middleware::new());
     mount.mount("/assets/", Static::new("assets"));
 
     println!("Serving on {}", config.bind_address);
